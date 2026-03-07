@@ -1,10 +1,10 @@
-from pathlib import Path
-
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, File, UploadFile
 from pydantic import BaseModel
 
-from app.rag.loader import load_txt_file
-from app.rag.chunker import split_text
+from app.core.embeddings import embed_texts
+from app.core.ids import make_chunk_id
+from app.core.vectorstore import add_documents
+from app.rag.chunker import chunk_text
 
 router = APIRouter(prefix="/api")
 
@@ -12,26 +12,57 @@ class IngestRequest(BaseModel):
     file_path: str
 
 @router.post("/ingest")
-def ingest_document(request: IngestRequest):
+async def ingest_file(file: UploadFile = File(...)):
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Filename is missing.")
+
+    if not file.filename.endswith(".txt"):
+        raise HTTPException(status_code=400, detail="Only .txt files are supported for now.")
+
     try:
-        path = Path(request.file_path)
-
-        if not path.exists():
-            raise HTTPException(status_code=404, detail="File not found")
-
-        text = load_txt_file(request.file_path)
-        chunks = split_text(text)
-
-        return {
-            "message": "Document loaded and chunked successfully",
-            "file_name": path.name,
-            "num_chunks": len(chunks),
-            "preview": chunks[:2]
-        }
-
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except FileNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raw_bytes = await file.read()
+        text = raw_bytes.decode("utf-8")
+    except UnicodeDecodeError:
+        raise HTTPException(status_code=400, detail="File must be UTF-8 encoded text.")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to read file: {str(e)}")
+
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+
+    chunks = chunk_text(text)
+
+    if not chunks:
+        raise HTTPException(status_code=400, detail="No chunks were created from the document.")
+
+    ids = []
+    metadatas = []
+
+    for i, chunk in enumerate(chunks):
+        ids.append(make_chunk_id(file.filename, i))
+        metadatas.append(
+            {
+                "source": file.filename,
+                "chunk_index": i,
+            }
+        )
+
+    try:
+        embeddings = embed_texts(chunks)
+
+        add_documents(
+            ids=ids,
+            documents=chunks,
+            embeddings=embeddings,
+            metadatas=metadatas,
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to ingest document: {str(e)}")
+
+    return {
+        "message": "File ingested successfully.",
+        "filename": file.filename,
+        "num_chunks": len(chunks),
+        "chunk_preview": chunks[:2],
+    }
