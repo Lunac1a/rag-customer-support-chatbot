@@ -1,15 +1,19 @@
-function SourceList() {
+function SourceList({ sources }) {
   return (
     <div className="sources">
       <h3>Sources</h3>
 
-      <div className="source-card">
-        <p><strong>File:</strong> store_policy.txt</p>
-        <p><strong>Chunk:</strong> 0</p>
-        <p>
-          Shipping Policy... Standard shipping takes 3 to 7 business days...
-        </p>
-      </div>
+      {sources.map((source, index) => (
+        <div className="source-card" key={index}>
+          <p>
+            <strong>File:</strong> {source.source}
+          </p>
+          <p>
+            <strong>Chunk:</strong> {source.chunk_index}
+          </p>
+          <p>{source.text}</p>
+        </div>
+      ))}
     </div>
   );
 }
