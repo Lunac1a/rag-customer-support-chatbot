@@ -195,3 +195,13 @@ button:hover {
   flex-direction: column;
   min-width: 0;
 }
+
+.upload-box input[type="file"] {
+  padding: 6px;
+  font-size: 14px;
+}
+
+.upload-box p {
+  font-size: 13px;
+  color: #6b7280;
+}
