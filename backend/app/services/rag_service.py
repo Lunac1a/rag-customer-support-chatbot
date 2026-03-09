@@ -1,6 +1,6 @@
 from app.core.embeddings import embed_text
 from app.core.vectorstore import query_documents
-from app.services.llm import generate_answer
+from app.services.llm_service import generate_answer
 from app.core.reranker import rerank
 from app.core.config import settings
 
