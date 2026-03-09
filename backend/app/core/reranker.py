@@ -1,17 +1,21 @@
-from sentence_transformers import CrossEncoder
 from app.core.config import settings
+from sentence_transformers import CrossEncoder
 
 _model = CrossEncoder(settings.RERANK_MODEL)
 
-def rerank(query: str, documents: list[str], top_k: int = 3):
-    pairs = [[query, doc] for doc in documents]
 
+def rerank(query: str, documents: list[dict], top_k: int = 3) -> list[dict]:
+    if not documents:
+        return []
+
+    pairs = [[query, item["content"]] for item in documents]
     scores = _model.predict(pairs)
 
-    ranked = sorted(
-        zip(documents, scores),
-        key=lambda x: x[1],
-        reverse=True
-    )
+    scored_documents = []
+    for item, score in zip(documents, scores):
+        scored_item = dict(item)
+        scored_item["score"] = float(score)
+        scored_documents.append(scored_item)
 
-    return [doc for doc, _ in ranked[:top_k]]
+    ranked = sorted(scored_documents, key=lambda item: item["score"], reverse=True)
+    return ranked[:top_k]

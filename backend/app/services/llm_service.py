@@ -3,7 +3,7 @@ from app.core.config import settings
 
 def generate_answer(prompt: str) -> str:
     response = requests.post(
-        settings.OLLAMA_URL,
+        settings.OLLAMA_BASE_URL,
         json={
             "model": settings.OLLAMA_MODEL,
             "prompt": prompt,
