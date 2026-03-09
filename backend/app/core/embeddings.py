@@ -1,8 +1,7 @@
 from sentence_transformers import SentenceTransformer
+from app.core.config import settings
 
-MODEL_NAME = "BAAI/bge-small-en-v1.5"
-
-_model = SentenceTransformer(MODEL_NAME)
+_model = SentenceTransformer(settings.EMBEDDING_MODEL)
 
 def get_embedding_model() -> SentenceTransformer:
     return _model

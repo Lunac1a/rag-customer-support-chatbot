@@ -2,10 +2,11 @@ from app.core.embeddings import embed_text
 from app.core.vectorstore import query_documents
 from app.services.llm import generate_answer
 from app.core.reranker import rerank
+from app.core.config import settings
 
 def answer_question(question: str) -> dict:
     query_embedding = embed_text(question)
-    results = query_documents(query_embedding, n_results=10)
+    results = query_documents(query_embedding, n_results=settings.RETRIEVAL_TOP_K)
 
     documents = results.get("documents", [[]])[0]
     metadatas = results.get("metadatas", [[]])[0]
@@ -18,7 +19,7 @@ def answer_question(question: str) -> dict:
         }
 
     # rerank
-    top_docs = rerank(question, documents, top_k=3)
+    top_docs = rerank(question, documents, top_k=settings.FINAL_TOP_K)
 
     context = "\n\n".join(top_docs)
 

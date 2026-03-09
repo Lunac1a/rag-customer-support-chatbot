@@ -1,13 +1,11 @@
 import requests
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "qwen2.5:7b"
+from app.core.config import settings
 
 def generate_answer(prompt: str) -> str:
     response = requests.post(
-        OLLAMA_URL,
+        settings.OLLAMA_URL,
         json={
-            "model": OLLAMA_MODEL,
+            "model": settings.OLLAMA_MODEL,
             "prompt": prompt,
             "stream": False,
         },

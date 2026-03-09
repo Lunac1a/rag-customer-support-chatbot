@@ -1,8 +1,7 @@
 from sentence_transformers import CrossEncoder
+from app.core.config import settings
 
-MODEL_NAME = "BAAI/bge-reranker-base"
-
-_model = CrossEncoder(MODEL_NAME)
+_model = CrossEncoder(settings.RERANK_MODEL)
 
 def rerank(query: str, documents: list[str], top_k: int = 3):
     pairs = [[query, doc] for doc in documents]
