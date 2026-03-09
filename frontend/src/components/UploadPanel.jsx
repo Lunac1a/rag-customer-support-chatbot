@@ -1,4 +1,5 @@
-import { useState } from "react";
+﻿import { useState } from "react";
+import { API_BASE_URL } from "../config/api";
 
 function UploadPanel() {
   const [file, setFile] = useState(null);
@@ -11,39 +12,39 @@ function UploadPanel() {
   };
 
   const handleUpload = async () => {
-  if (!file) {
-    setStatus("Please choose a file first.");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    setStatus("Uploading...");
-
-    const response = await fetch("http://127.0.0.1:8001/api/ingest", {
-      method: "POST",
-      body: formData,
-    });
-
-    console.log("upload response status:", response.status);
-
-    const text = await response.text();
-    console.log("upload response body:", text);
-
-    if (!response.ok) {
-      throw new Error(`Upload failed: ${response.status} ${text}`);
+    if (!file) {
+      setStatus("Please choose a file first.");
+      return;
     }
 
-    const data = JSON.parse(text);
-    setStatus(`Uploaded: ${data.filename} (${data.num_chunks} chunks)`);
-    setFile(null);
-  } catch (error) {
-    console.error("upload error:", error);
-    setStatus(String(error));
-  }
-};
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      setStatus("Uploading...");
+
+      const response = await fetch(`${API_BASE_URL}/api/ingest`, {
+        method: "POST",
+        body: formData,
+      });
+
+      console.log("upload response status:", response.status);
+
+      const text = await response.text();
+      console.log("upload response body:", text);
+
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.status} ${text}`);
+      }
+
+      const data = JSON.parse(text);
+      setStatus(`Uploaded: ${data.filename} (${data.num_chunks} chunks)`);
+      setFile(null);
+    } catch (error) {
+      console.error("upload error:", error);
+      setStatus(String(error));
+    }
+  };
 
   return (
     <aside className="sidebar">

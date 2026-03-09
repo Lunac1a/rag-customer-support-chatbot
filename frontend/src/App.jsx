@@ -1,8 +1,9 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import "./App.css";
 import UploadPanel from "./components/UploadPanel";
 import ChatWindow from "./components/ChatWindow";
 import MessageInput from "./components/MessageInput";
+import { API_BASE_URL } from "./config/api";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -23,7 +24,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8001/api/chat", {
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
