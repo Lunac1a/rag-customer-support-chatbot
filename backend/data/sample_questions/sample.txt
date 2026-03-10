@@ -1,0 +1,75 @@
+Basic Retrieval Questions
+1. How long does standard shipping usually take?
+
+Answer:
+Standard shipping usually takes 3–7 business days for delivery.
+
+2. What is the return window for purchased items?
+
+Answer:
+Customers may return most items within 30 days of delivery, provided that the item is unused, in its original condition, and includes the original packaging.
+
+3. Are shipping costs refundable when returning an item?
+
+Answer:
+Shipping costs are generally non-refundable. However, shipping costs may be refunded if the return is due to a mistake made by the company, such as sending the wrong item.
+
+Cross-Section Retrieval Questions
+4. What should a customer do if they receive a damaged product?
+
+Answer:
+Customers should submit an exchange request within 7 days of delivery and contact customer support with their order details. They should also include photos of the damaged item to help speed up the process.
+
+5. Can customers cancel their order after it has been shipped?
+
+Answer:
+No. Once an order has been shipped, it cannot be canceled. Customers must wait until the item is delivered and then follow the return process if they wish to send the item back.
+
+6. What information is required when filing a warranty claim?
+
+Answer:
+To file a warranty claim, customers must provide:
+
+Proof of purchase
+
+A description of the issue
+
+Photos or videos showing the defect
+
+Boundary / Hallucination Check Questions
+7. Can customers return digital products?
+
+Answer:
+No. Digital products cannot be returned, according to the return policy.
+
+8. Who pays for return shipping if the wrong item was sent?
+
+Answer:
+If the company sends the wrong item, the company will cover the cost of return shipping and provide a replacement item at no additional cost.
+
+9. How long does international shipping usually take?
+
+Answer:
+International shipping typically takes 7–21 business days, depending on customs clearance and the destination country.
+
+Reasoning Questions
+10. If a customer wants to cancel an order 20 hours after purchase, what should they do?
+
+Answer:
+Orders can only be canceled within 12 hours of purchase. After 12 hours, cancellation is not guaranteed because the order may already be processed or shipped. If cancellation is not possible, the customer must wait for the item to be delivered and then follow the return procedure.
+
+11. What happens if the replacement item in an exchange request is out of stock?
+
+Answer:
+If the replacement item is unavailable, customers can choose one of the following options:
+
+A full refund
+
+Store credit
+
+Waiting until the item is restocked
+
+12. When should a customer contact support if a package is delayed?
+
+Answer:
+Customers should contact support if a package appears delayed or stuck for more than 5 business days beyond the estimated delivery window.
