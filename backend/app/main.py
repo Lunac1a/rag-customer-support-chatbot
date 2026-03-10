@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.config import settings
+
 from app.api.health import router as health_router
 from app.api.ingest import router as ingest_router
 from app.api.query import router as query_router
@@ -10,7 +12,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[f"http://localhost:{settings.ORIGINS_PORT}"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
