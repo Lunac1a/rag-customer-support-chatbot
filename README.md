@@ -136,7 +136,7 @@ Example:
     source .venv/bin/activate     # macOS / Linux
     .venv\Scripts\activate      # Windows
     pip install -r requirements.txt
-    uvicorn app.main:app --reload --host 127.0.0.1 --port 8080
+    uvicorn app.main:app --reload
 
 ### Ollama
 
