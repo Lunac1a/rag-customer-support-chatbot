@@ -1,202 +1,218 @@
-# RAG Customer Support Chatbot
+ï»¿# RAG Customer Support Chatbot
 
-A **local Retrieval-Augmented Generation (RAG) chatbot** built with
-**FastAPI, React, Chroma, BGE embeddings/reranker, and Ollama**.
+A **local Retrieval-Augmented Generation (RAG) chatbot** built with **FastAPI, React, Chroma, BGE embeddings/reranker, and Ollama**.
 
-The system allows users to upload knowledge-base documents, retrieve
-relevant chunks with semantic search, rerank them, and generate grounded
-answers with source references.
+The system allows users to upload knowledge-base documents, retrieve relevant chunks with semantic search, rerank them, and generate grounded answers with source references.
 
-------------------------------------------------------------------------
+---
 
 ## Features
 
--   Upload `.txt` knowledge-base documents
--   Automatic chunking, embedding, and storage in **Chroma**
--   Semantic retrieval using vector search
--   Reranking of retrieved chunks before generation
--   Local LLM answer generation using **Ollama**
--   Answers include supporting **source chunks**
--   Configurable backend settings via `.env`
--   Configurable frontend API host/port via `.env`
--   Centralized logging to console and a timestamped file in `logs/`
+- Upload `.txt` knowledge-base documents
+- Automatic chunking, embedding, and storage in **Chroma**
+- Semantic retrieval using vector search
+- Reranking of retrieved chunks before generation
+- Local LLM answer generation using **Ollama**
+- Answers include supporting **source chunks**
+- Configurable backend settings via `.env`
+- Configurable frontend API host/port via `.env`
+- Centralized logging to console and a timestamped file in `logs/`
 
-------------------------------------------------------------------------
+---
 
 ## Tech Stack
 
-**Backend** - FastAPI - ChromaDB - Sentence Transformers (BGE) - BGE
-Reranker - Ollama - Python / dotenv
+**Backend**: FastAPI, ChromaDB, Sentence Transformers (BGE), BGE Reranker, Ollama, Python, dotenv
 
-**Frontend** - React - Vite
+**Frontend**: React, Vite
 
-------------------------------------------------------------------------
+---
 
 ## Project Structure
 
-    rag-customer-support-chatbot
-    â”œâ”€â”€ backend
-    â”?  â”œâ”€â”€ app
-    â”?  â”?  â”œâ”€â”€ api
-    â”?  â”?  â”œâ”€â”€ core
-    â”?  â”?  â”œâ”€â”€ services
-    â”?  â”?  â””â”€â”€ rag
-    â”?  â”œâ”€â”€ .env.example
-    â”?  â””â”€â”€ requirements.txt
-    â”œâ”€â”€ frontend
-    â”?  â”œâ”€â”€ src
-    â”?  â”œâ”€â”€ .env.example
-    â”?  â””â”€â”€ package.json
-    â””â”€â”€ README.md
+```text
+rag-customer-support-chatbot/
+|-- backend/
+|   |-- app/
+|   |   |-- api/
+|   |   |-- core/
+|   |   |-- services/
+|   |   `-- rag/
+|   |-- .env.example
+|   `-- requirements.txt
+|-- frontend/
+|   |-- src/
+|   |-- .env.example
+|   `-- package.json
+`-- README.md
+```
 
-------------------------------------------------------------------------
+---
 
 ## RAG Pipeline
 
-    Upload document
-        â†?
-    Chunk text
-        â†?
-    Generate embeddings
-        â†?
-    Store in Chroma
-        â†?
-    User asks question
-        â†?
-    Embed question
-        â†?
-    Retrieve top-k chunks
-        â†?
-    Rerank retrieved chunks
-        â†?
-    Build prompt
-        â†?
-    Generate answer with Ollama
-        â†?
-    Return answer + sources
+```text
+Upload document
+    â†“
+Chunk text
+    â†“
+Generate embeddings
+    â†“
+Store in Chroma
+    â†“
+User asks question
+    â†“
+Embed question
+    â†“
+Retrieve top-k chunks
+    â†“
+Rerank retrieved chunks
+    â†“
+Build prompt
+    â†“
+Generate answer with Ollama
+    â†“
+Return answer + sources
+```
 
-------------------------------------------------------------------------
+---
 
 ## API Endpoints
 
-`GET /` -- backend root check\
-`POST /api/health` -- health check\
-`POST /api/ingest` -- upload `.txt` â†?chunk â†?embed â†?store\
-`POST /api/query` -- vector retrieval only\
-`POST /api/chat` -- full RAG pipeline
+- `GET /`: backend root check
+- `POST /api/health`: health check
+- `POST /api/ingest`: upload `.txt` -> chunk -> embed -> store
+- `POST /api/query`: vector retrieval only
+- `POST /api/chat`: full RAG pipeline
 
-------------------------------------------------------------------------
+---
 
 ## Configuration
 
 ### Backend
 
-    cd backend
-    cp .env.example .env
+```bash
+cd backend
+cp .env.example .env
+```
 
 Example:
 
-    OLLAMA_BASE_URL=http://localhost:11434
-    OLLAMA_MODEL=qwen2.5:7b
+```env
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=qwen2.5:7b
 
-    EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
-    RERANK_MODEL=BAAI/bge-reranker-base
+EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
+RERANK_MODEL=BAAI/bge-reranker-base
 
-    CHROMA_DIR=./chroma_db
+CHROMA_DIR=./chroma_db
 
-    CHUNK_SIZE=500
-    CHUNK_OVERLAP=50
+CHUNK_SIZE=500
+CHUNK_OVERLAP=50
 
-    RETRIEVAL_TOP_K=10
-    FINAL_TOP_K=3
+RETRIEVAL_TOP_K=10
+FINAL_TOP_K=3
+```
 
 ### Frontend
 
-    cd frontend
-    cp .env.example .env
+```bash
+cd frontend
+cp .env.example .env
+```
 
 Example:
 
-    VITE_API_HOST=127.0.0.1
-    VITE_API_PORT=8000
+```env
+VITE_API_HOST=127.0.0.1
+VITE_API_PORT=8000
+```
 
-------------------------------------------------------------------------
+---
 
 ## Local Setup
 
 ### Clone repository
 
-    git clone <repo-url>
-    cd rag-customer-support-chatbot
+```bash
+git clone <repo-url>
+cd rag-customer-support-chatbot
+```
 
 ### Backend
 
-    cd backend
-    python -m venv .venv
-    source .venv/bin/activate     # macOS / Linux
-    .venv\Scripts\activate      # Windows
-    pip install -r requirements.txt
-    uvicorn app.main:app --reload
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate  # macOS / Linux
+.venv\Scripts\activate    # Windows
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
 ### Ollama
 
-    ollama pull qwen2.5:7b
-    ollama serve
+```bash
+ollama pull qwen2.5:7b
+ollama serve
+```
 
 ### Frontend
 
-    cd frontend
-    npm install
-    npm run dev
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-------------------------------------------------------------------------
+---
 
 ## Usage
 
-1.  Open the frontend in your browser\
-2.  Upload a `.txt` knowledge-base file\
-3.  Ask questions in the chat UI\
-4.  The system retrieves, reranks, generates an answer, and returns
-    sources
+1. Open the frontend in your browser.
+2. Upload a `.txt` knowledge-base file.
+3. Ask questions in the chat UI.
+4. The system retrieves, reranks, generates an answer, and returns sources.
 
-------------------------------------------------------------------------
+---
 
 ## Logging
 
 Logs are written to:
 
-    logs/YYYY-MM-DD_HH-MM-SS.log
+```text
+logs/YYYY-MM-DD_HH-MM-SS.log
+```
 
-and printed to the console.
+They are also printed to the console.
 
-------------------------------------------------------------------------
+---
 
 ## Limitations
 
--   Only `.txt` ingestion
--   Single-user local setup
--   No authentication
--   No streaming responses
+- Only `.txt` ingestion
+- Single-user local setup
+- No authentication
+- No streaming responses
 
-------------------------------------------------------------------------
+---
 
 ## Possible Improvements
 
--   PDF / Markdown ingestion
--   Streaming responses
--   Better UI polish
--   Automated tests
--   Docker deployment
+- PDF / Markdown ingestion
+- Streaming responses
+- Better UI polish
+- Automated tests
+- Docker deployment
 
-------------------------------------------------------------------------
+---
 
 ## Purpose
 
-Demonstrates:
+This project demonstrates:
 
--   end-to-end RAG pipeline
--   local LLM integration
--   semantic retrieval + reranking
--   frontend/backend integration
--   engineering improvements beyond a simple demo
-
+- End-to-end RAG pipeline
+- Local LLM integration
+- Semantic retrieval + reranking
+- Frontend/backend integration
+- Engineering improvements beyond a simple demo
