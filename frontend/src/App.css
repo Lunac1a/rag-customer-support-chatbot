@@ -53,6 +53,7 @@
 
 /* ===== Buttons ===== */
 
+.button,
 button {
   padding: 10px 14px;
   border-radius: 8px;
@@ -60,8 +61,14 @@ button {
   background: #2563eb;
   color: white;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  text-decoration: none;
 }
 
+.button:hover,
 button:hover {
   background: #1d4ed8;
 }
@@ -196,9 +203,20 @@ button:hover {
   min-width: 0;
 }
 
-.upload-box input[type="file"] {
-  padding: 6px;
-  font-size: 14px;
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.upload-trigger {
+  width: 100%;
 }
 
 .upload-box p {

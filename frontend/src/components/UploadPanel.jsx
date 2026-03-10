@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { API_BASE_URL } from "../config/api";
 
 function UploadPanel() {
@@ -51,11 +51,23 @@ function UploadPanel() {
       <h2>Knowledge Base</h2>
 
       <div className="upload-box">
-        <input type="file" accept=".txt" onChange={handleFileChange} />
+        <input
+          id="kb-file-input"
+          className="file-input"
+          type="file"
+          accept=".txt"
+          onChange={handleFileChange}
+        />
+
+        <label className="button upload-trigger" htmlFor="kb-file-input">
+          Choose File
+        </label>
 
         {file && <p>Selected: {file.name}</p>}
 
-        <button onClick={handleUpload}>Upload</button>
+        <button className="button" onClick={handleUpload}>
+          Upload
+        </button>
 
         {status && <p>{status}</p>}
       </div>
